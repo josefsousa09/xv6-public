@@ -394,7 +394,7 @@ copyout(pde_t *pgdir, uint va, void *p, uint len)
 
 int
 mprotect(void *addr, int len){
-  pde_t *pgdir; = myproc()->pgdir;
+  pde_t *pgdir = myproc()->pgdir;
   uint flags;
   uint address = (uint)addr;
   uint max = len + address;
@@ -418,7 +418,7 @@ mprotect(void *addr, int len){
 
 int
 munprotect(void *addr, int len){
-  pde_t *pgdir; = myproc()->pgdir;
+  pde_t *pgdir = myproc()->pgdir;
   uint flags;
   uint address = (uint)addr;
   uint max = len + address;
