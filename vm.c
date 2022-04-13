@@ -398,10 +398,10 @@ mprotect(void *addr, int len){
   uint flags;
   uint address = (uint)addr;
   uint max = len + address;
-  uint index;
+  uint index = address;
   pte_t *pte;
 
-    for(index = address; index < max; index += PGSIZE){
+  while(index<max){
       pte = walkpgdir(pgdir, (char*)index, 0);
       if (pte == 0){
         return -1;
@@ -412,6 +412,7 @@ mprotect(void *addr, int len){
         flags |= PTE_W;
         *pte = PTE_ADDR(*pte) | flags;
       }
+      index += PGSIZE;
     }
     return 0;
 }
@@ -422,10 +423,10 @@ munprotect(void *addr, int len){
   uint flags;
   uint address = (uint)addr;
   uint max = len + address;
-  uint index;
+  uint index = address;
   pte_t *pte;
 
-    for(index = address; index < max; index += PGSIZE){
+  while(index<max){
       pte = walkpgdir(pgdir, (char*)index, 0);
       if (pte == 0){
         return -1;
@@ -435,6 +436,7 @@ munprotect(void *addr, int len){
         flags &= ~PTE_U;
         *pte = PTE_ADDR(*pte) | flags;
       }
+      index += PGSIZE;
     }
     return 0;
 }
